@@ -51,10 +51,24 @@ exports.getCard = async function (req, res) {
 exports.updateCard = async function (req, res) {
     const cardID = req.params.cardID
     const card = await Card.findOne({cardID: cardID})
+    if (card) {
+        const updatedCard = await Card.findOneAndUpdate({cardID: cardID},req.body).catch(err => console.log(err))
+        return res.status(200).json(updatedCard)
+    }else{
+        return res.status(404).json({error:"Card not found!"})
+    }
 }
 
-exports.deleteCard = function (req, res) {
-    res.send("Delete a card")
+exports.deleteCard = async function (req, res) {
+    await Card.findOneAndDelete({cardID:req.params.cardID}).then(card =>{
+        if(card){
+            return res.status(200).json(card)
+        }else{
+            return res.status(404).json({error:"Card not found!"})
+        }
+        
+    })
+    .catch(err => console.log(err))
 }
 
 exports.checkPermission = function (req, res) {
