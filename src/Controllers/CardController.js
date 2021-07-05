@@ -19,31 +19,38 @@ exports.getCards = function (req, res) {
 
 exports.createCard = async function (req, res) {
     
-    await Card.findOne({cardID: req.body.cardID},(err, card) =>{
-        if (err) {
-            res.status(400).json()
-        }
-    })
+    var card = await Card.findOne({cardID: req.body.cardID})
+    if(card){
+        return res.status(400).json({error:"Already exists!"})
+    }
 
-    const card = new Card({
+    const newCard = new Card({
         cardID: req.body.cardID,
         owner: req.body.owner,
         permission: req.body.permission
     })
 
-    await card.save()
+    await newCard.save()
     .then((card) =>{
-        res.status(200).json(card)
+        return res.status(200).json(card)
     })
     .catch(err => console.log(err))
 }
 
-exports.getCard = function (req, res) {
-    res.send("Get spesific cards")
+exports.getCard = async function (req, res) {
+    const cardID = req.params.cardID
+    const card = await Card.findOne({cardID: cardID})
+
+    if(card){
+        return res.status(200).json(card)
+    }else{
+        return res.status(404).json({})
+    }
 }
 
-exports.updateCard = function (req, res) {
-    res.send("Update a card")
+exports.updateCard = async function (req, res) {
+    const cardID = req.params.cardID
+    const card = await Card.findOne({cardID: cardID})
 }
 
 exports.deleteCard = function (req, res) {

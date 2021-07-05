@@ -8,9 +8,9 @@ router.get('/',CardController.getCards)
 
 router.post('/',ValidationRules.CreateCard,Validator.validateRequest, CardController.createCard)
 
-router.get('/:cardID', CardController.getCard)
+router.get('/:cardID',ValidationRules.GetCard, Validator.validateRequest, CardController.getCard)
 
-router.put('/:cardID',CardController.updateCard)
+router.put('/:cardID',ValidationRules.UpdateCard, Validator.validateRequest, CardController.updateCard)
 
 router.delete('/:cardID',CardController.deleteCard)
 
