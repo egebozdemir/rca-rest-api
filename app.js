@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const app = express()
 const port = 3000
 
-var connection = mongoose.connect('mongodb://root:XJSVuHHAbDpxursEnUPQ@10.10.102.1:27017/control-system?authSource=admin', {useNewUrlParser: true,useUnifiedTopology:true},()=>{
+var connection = mongoose.connect('mongodb://root:XJSVuHHAbDpxursEnUPQ@0.0.0.0:27017/control-system?authSource=admin', {useNewUrlParser: true,useUnifiedTopology:true},()=>{
   console.log("Connection established")
 })
 

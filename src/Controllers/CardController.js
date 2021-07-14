@@ -73,5 +73,8 @@ exports.deleteCard = async function (req, res) {
 
 exports.checkPermission = async function (req, res) {
     const card = await Card.findOne({cardID:req.params.cardID})
+    if (card == null) {
+        return res.status(200).json({permission:false})
+    }
     return res.status(200).json({permission:card.permission})
 }
